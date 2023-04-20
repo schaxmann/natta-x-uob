@@ -105,7 +105,7 @@ export const FormDiv = styled.div`
 export const Name = styled.input`
   font-family: "indivisible-variable";
   font-variation-settings: "wght" 500;
-  font-size: 16px;
+  font-size: 1.8vh;
   width: 70%;
   height: 10%;
   background-color: black;
@@ -114,6 +114,8 @@ export const Name = styled.input`
   border-radius: 4px;
   margin: 0;
   padding: 0;
+  padding-left: 1.5vh;
+  padding-top: 0.4vh;
   align-self: center;
   :focus {
     outline: none;
@@ -128,9 +130,9 @@ export const Name = styled.input`
 export const TopTitle = styled.h3`
   font-family: "indivisible-variable";
   font-variation-settings: "wght" 550;
-  font-size: 1.4vw;
+  font-size: 2.5vh;
   margin: 0;
-  padding: 1.5vw 10px 5px 1.8vw;
+  padding: 3vh 10px 5px 3vh;
 `;
 
 export const Number = styled(Name)`
@@ -138,18 +140,23 @@ export const Number = styled(Name)`
 `;
 
 export const DetailTitle = styled.h2`
-  font-size: 1.4vw;
+  font-size: 2.5vh;
   margin: 0;
-  padding: 1.2vw 10px 5px 0;
+  padding: 2.5vh 10px 0 0;
   width: 70%;
   align-self: center;
+`;
+
+export const FriendDetailTitle = styled(DetailTitle)`
+  padding-top: 4.5vh;
+  line-height: 1.5;
 `;
 
 const SubmitButton = styled.button`
   font-family: "indivisible-variable";
   font-variation-settings: "wght" 500;
   background-color: black;
-  width: 50%;
+  width: 26%;
   height: 100%;
   background-color: black;
   color: white;
@@ -157,13 +164,16 @@ const SubmitButton = styled.button`
   border-radius: 4px;
   margin: 0;
   padding: 0;
-  font-size: 16px;
+  padding: 0;
+  padding-left: 1.5vh;
+  padding-top: 0.4vh;
+  font-size: 1.8vh;
   text-align: left;
   box-sizing: content-box;
 `;
 
 const SubmitDiv = styled.div`
-  width: 70%;
+  width: 75%;
   height: 10%;
   align-self: center;
   padding: 0;
@@ -218,7 +228,16 @@ const Landing: NextPage = () => {
                 <SubmitButton>Submit</SubmitButton>
               </SubmitDiv>
             </FormDiv>
-            <FormDiv> Your friend&rsquo;s details:</FormDiv>
+            <FormDiv>
+              <FriendDetailTitle>
+                Your Friend&rsquo;s details:
+              </FriendDetailTitle>
+              <Name type="text" placeholder="Full Name"></Name>
+              <Number type="tel" placeholder="Phone Number"></Number>
+              <SubmitDiv>
+                <SubmitButton>Submit</SubmitButton>
+              </SubmitDiv>
+            </FormDiv>
           </BackTicketImage>
         </TicketDiv>
       </Container>

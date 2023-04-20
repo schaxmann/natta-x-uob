@@ -2,6 +2,11 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 
+interface Props {
+  spin: boolean;
+  straight: boolean;
+}
+
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -11,7 +16,7 @@ export const Container = styled.div`
   position: absolute;
 `;
 
-export const TicketDiv = styled.div`
+export const TicketDiv = styled.div<Props>`
   height: 80vh;
   width: 38.778625953vh;
   transform-style: preserve-3d;
@@ -26,7 +31,7 @@ export const TicketDiv = styled.div`
   } */
 `;
 
-export const TicketImage = styled.img`
+export const TicketImage = styled.img<Props>`
   height: 100%;
   position: absolute;
   backface-visibility: hidden;
@@ -35,7 +40,7 @@ export const TicketImage = styled.img`
   transform: ${(props) => props.spin && "rotate(0deg)"};
 `;
 
-export const BackTicketImage = styled.div`
+export const BackTicketImage = styled.div<Props>`
   height: 100%;
   width: 100%;
   background-image: url("ticketOutline.png");
@@ -193,8 +198,13 @@ const Landing: NextPage = () => {
   return (
     <>
       <Container>
-        <TicketDiv spin={spin}>
-          <TicketImage onClick={handleSpin} spin={spin} src="MainTicket.png" />
+        <TicketDiv spin={spin} straight={straight}>
+          <TicketImage
+            onClick={handleSpin}
+            spin={spin}
+            straight={straight}
+            src="MainTicket.png"
+          />
           <BackTicketImage spin={spin} onClick={handleSpin} straight={straight}>
             <FormDiv>
               <TopTitle>

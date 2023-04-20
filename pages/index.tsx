@@ -218,7 +218,7 @@ const Landing: NextPage = () => {
                 <SubmitButton>Submit</SubmitButton>
               </SubmitDiv>
             </FormDiv>
-            <FormDiv> Your friend's details:</FormDiv>
+            <FormDiv> Your friend&rsquo;s details:</FormDiv>
           </BackTicketImage>
         </TicketDiv>
       </Container>

@@ -15,9 +15,9 @@ interface Dimensions {
 
 interface DivProps extends Props, Dimensions {}
 
-export const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+export const Container = styled.div<Dimensions>`
+  height: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
+  width: ${(dimensions) => dimensions.width && `${dimensions.width}px`};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -237,7 +237,7 @@ const Landing: NextPage = () => {
 
   return (
     <>
-      <Container>
+      <Container height={height} width={width}>
         <TicketDiv
           spin={spin}
           straight={straight}

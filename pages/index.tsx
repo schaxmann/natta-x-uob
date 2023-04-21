@@ -44,9 +44,11 @@ export const TicketImage = styled.img<Props>`
   transform: rotate(4deg);
   transition: all 0.8s ease;
   transform: ${(props) => props.spin && "rotate(0deg)"};
+  outline: 1px solid transparent;
 `;
 
 export const BackTicketImage = styled.div<Props>`
+  outline: 1px solid transparent;
   height: 100%;
   width: 100%;
   background-image: url("ticketOutline.png");

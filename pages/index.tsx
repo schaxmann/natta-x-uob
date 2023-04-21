@@ -13,6 +13,8 @@ interface Dimensions {
   width: number | undefined;
 }
 
+interface DivProps extends Props, Dimensions {}
+
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -22,9 +24,11 @@ export const Container = styled.div`
   position: absolute;
 `;
 
-export const TicketDiv = styled.div<Props>`
-  height: 80vh;
-  width: 38.778625953vh;
+export const TicketDiv = styled.div<DivProps>`
+  height: ${(dimensions) =>
+    dimensions.height && `${dimensions.height * 0.9}px`};
+  width: ${(dimensions) =>
+    dimensions.height && `${dimensions.height * 0.9 * 0.48473282441}px`};
   transform-style: preserve-3d;
   transition: all 0.8s ease;
   position: absolute;
@@ -227,7 +231,12 @@ const Landing: NextPage = () => {
   return (
     <>
       <Container>
-        <TicketDiv spin={spin} straight={straight}>
+        <TicketDiv
+          spin={spin}
+          straight={straight}
+          height={height}
+          width={width}
+        >
           <TicketImage
             onClick={handleSpin}
             spin={spin}

@@ -1,3 +1,4 @@
+import useWindowDimensions from "@/hooks/useWindowDimension";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
@@ -5,6 +6,11 @@ import styled, { css } from "styled-components";
 interface Props {
   spin: boolean;
   straight: boolean;
+}
+
+interface Dimensions {
+  height: number | undefined;
+  width: number | undefined;
 }
 
 export const Container = styled.div`
@@ -188,9 +194,20 @@ export const GreenSpan = styled.span`
   padding-top: 0.4vw;
 `;
 
+const DimensionsDiv = styled.div<Dimensions>`
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  color: white;
+  background-color: red;
+  height: ${(dimensions) =>
+    dimensions.height && `${dimensions.height * 0.9}px`};
+`;
+
 const Landing: NextPage = () => {
   const [spin, setSpin] = useState(false);
   const [straight, setStraight] = useState(false);
+  const { width, height } = useWindowDimensions();
 
   const handleSpin = (e: any) => {
     console.log(spin);
@@ -240,6 +257,9 @@ const Landing: NextPage = () => {
             </FormDiv>
           </BackTicketImage>
         </TicketDiv>
+        <DimensionsDiv height={height} width={width}>
+          {width} x {height}
+        </DimensionsDiv>
       </Container>
       {/* <LogoutButton onClick={handleSpin}> Spin Dat Shit</LogoutButton> */}
       {/* <SeconButton onClick={handleStraighten}>Straighten Dat Shit</SeconButton> */}

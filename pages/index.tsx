@@ -39,13 +39,6 @@ export const TicketDiv = styled.div<DivProps>`
   /* :hover {
     transform: rotateY(180deg);
   } */
-
-  @media (max-width: 500px) {
-    height: ${(dimensions) =>
-      dimensions.height && `${dimensions.height * 0.8}px`};
-    width: ${(dimensions) =>
-      dimensions.height && `${dimensions.height * 0.8 * 0.48473282441}px`};
-  }
 `;
 
 export const TicketImage = styled.img<Props>`

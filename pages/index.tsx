@@ -17,13 +17,23 @@ interface DivProps extends Props, Dimensions {}
 
 export const Container = styled.div<Dimensions>`
   height: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
-  width: ${(dimensions) => dimensions.width && `${dimensions.width}px`};
+  width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.992}px`};
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   margin: 0;
   position: absolute;
+`;
+
+const ContainerTwo = styled.div<Dimensions>`
+  height: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
+  width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.992}px`};
+  top: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const TicketDiv = styled.div<DivProps>`
@@ -44,6 +54,29 @@ export const TicketDiv = styled.div<DivProps>`
   /* :hover {
     transform: rotateY(180deg);
   } */
+`;
+
+export const ParaDiv = styled.div<Dimensions>`
+  height: ${(dimensions) =>
+    dimensions.height && `${dimensions.height * 0.8}px`};
+  position: absolute;
+  color: white;
+  padding: 300px;
+`;
+
+export const Subtitle = styled.h3`
+  font-family: "Roc-Grotesk-Variable";
+  font-variation-settings: "wdth" 125, "wght" 700;
+  font-size: 80px;
+  padding: 0;
+  margin: 0;
+`;
+
+export const Para = styled.p`
+  font-family: "indivisible-variable";
+  font-variation-settings: "wght" 400;
+  font-size: 50px;
+  line-height: 127%;
 `;
 
 export const TicketImage = styled.img<Props>`
@@ -277,7 +310,38 @@ const Landing: NextPage = () => {
         {/* <DimensionsDiv height={height} width={width}>
           {width} x {height}
         </DimensionsDiv> */}
+        {/* <ParaDiv
+          spin={spin}
+          straight={straight}
+          height={height}
+          width={width}
+        ></ParaDiv> */}
       </Container>
+      <ContainerTwo height={height} width={width}>
+        <ParaDiv height={height} width={width}>
+          <Subtitle>Why us?</Subtitle>
+          <Para>
+            If you&rsquo;ve chosen to study in Brum, you must have exquisite
+            taste...
+          </Para>
+          <Para>
+            We&rsquo;d like to borrow it to shape the best dating app in the
+            world.
+          </Para>
+          <Subtitle>The goal</Subtitle>
+          <Para>Our mission is to create your favourite dating app. </Para>
+          <Para>
+            But to do it, we need you to roast us; tell us all our flaws so we
+            can do better.
+          </Para>
+          <Subtitle>The promise</Subtitle>
+          <Para>
+            In return, we promise to not stop refining and perfecting until
+            we&rsquo;ve built the perfect app, especially for you.
+          </Para>
+          <Para>Literally you, reading this, right now.</Para>
+        </ParaDiv>
+      </ContainerTwo>
       {/* <LogoutButton onClick={handleSpin}> Spin Dat Shit</LogoutButton> */}
       {/* <SeconButton onClick={handleStraighten}>Straighten Dat Shit</SeconButton> */}
     </>

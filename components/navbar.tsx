@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Link from "next/link";
 
 export const Wrapper = styled.div`
-  width: 100vw;
+  width: 99.2vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -11,6 +11,7 @@ export const Wrapper = styled.div`
   align-items: center;
   position: absolute;
   color: white;
+  z-index: 10;
 `;
 
 export const Para = styled.a`
@@ -46,6 +47,16 @@ export const LogoutButton = styled.button`
   }
 `;
 
+const Menu = styled.img`
+  height: 25px;
+  width: 25px;
+  margin-right: 20px;
+  :hover {
+    cursor: pointer;
+    filter: brightness(5000%);
+  }
+`;
+
 export default function NavBar() {
   const handleLogout = async (e: any) => {
     e.preventDefault();
@@ -68,7 +79,9 @@ export default function NavBar() {
   return (
     <Wrapper>
       <Para>natta</Para>
-      <Para>menu</Para>
+      <a>
+        <Menu src="burger.svg"></Menu>
+      </a>
       {/* <LogoutButton onClick={handleLogout} className="sign-in" type="submit">
         Sign In
       </LogoutButton>

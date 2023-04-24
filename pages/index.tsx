@@ -38,6 +38,9 @@ export const TicketDiv = styled.div<DivProps>`
   align-items: center;
   justify-content: center;
   transform: ${(props) => props.spin && "rotateY(180deg)"};
+  @media (max-width: 500px) {
+    padding-top: 50px;
+  }
   /* :hover {
     transform: rotateY(180deg);
   } */

@@ -21,14 +21,16 @@ export const Container = styled.div<Dimensions>`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  margin: 0;
   position: absolute;
 `;
 
 export const TicketDiv = styled.div<DivProps>`
   height: ${(dimensions) =>
-    dimensions.height && `${dimensions.height * 0.9}px`};
+    dimensions.height && `${dimensions.height * 0.8}px`};
   width: ${(dimensions) =>
-    dimensions.height && `${dimensions.height * 0.9 * 0.48473282441}px`};
+    dimensions.height && `${dimensions.height * 0.8 * 0.48473282441}px`};
   transform-style: preserve-3d;
   transition: all 0.8s ease;
   position: absolute;
@@ -43,6 +45,7 @@ export const TicketDiv = styled.div<DivProps>`
 
 export const TicketImage = styled.img<Props>`
   height: 100%;
+  width: 100%;
   position: absolute;
   backface-visibility: hidden;
   transform: rotate(4deg);
@@ -268,9 +271,9 @@ const Landing: NextPage = () => {
             </FormDiv>
           </BackTicketImage>
         </TicketDiv>
-        <DimensionsDiv height={height} width={width}>
+        {/* <DimensionsDiv height={height} width={width}>
           {width} x {height}
-        </DimensionsDiv>
+        </DimensionsDiv> */}
       </Container>
       {/* <LogoutButton onClick={handleSpin}> Spin Dat Shit</LogoutButton> */}
       {/* <SeconButton onClick={handleStraighten}>Straighten Dat Shit</SeconButton> */}

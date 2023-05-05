@@ -1,7 +1,8 @@
 import useWindowDimensions from "@/hooks/useWindowDimension";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
+import useScrollSnap from "react-use-scroll-snap";
 
 interface Props {
   spin: boolean;
@@ -17,7 +18,8 @@ interface DivProps extends Props, Dimensions {}
 
 export const Container = styled.div<Dimensions>`
   height: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
-  width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.992}px`};
+  width: ${(dimensions) =>
+    dimensions.width && `${dimensions.width * 0.99222222}px`};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,11 +31,53 @@ export const Container = styled.div<Dimensions>`
 const ContainerTwo = styled.div<Dimensions>`
   height: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
   width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.992}px`};
-  top: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
+  top: ${(dimensions) => dimensions.height && `${dimensions.height * 3}px`};
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const CompatControls = styled.div`
+  width: 200px;
+  height: 72.669322708px;
+  background-image: url("CompatControls.png");
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "indivisible-variable";
+  font-variation-settings: "wght" 500;
+`;
+
+const CompatCards = styled.img`
+  padding-bottom: 30px;
+  width: 225px;
+  height: 320.424107144px;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "indivisible-variable";
+  font-variation-settings: "wght" 500;
+`;
+
+const CompatWord = styled.p`
+  position: relative;
+  top: -24px;
+  font-size: 16px;
+`;
+
+const ContainerThree = styled(ContainerTwo)<Dimensions>`
+  top: ${(dimensions) => dimensions.height && `${dimensions.height}px`};
+`;
+
+const ContainerFour = styled(ContainerTwo)<Dimensions>`
+  top: ${(dimensions) => dimensions.height && `${dimensions.height * 2}px`};
+`;
+
+const ContainerFive = styled(ContainerTwo)<Dimensions>`
+  top: ${(dimensions) => dimensions.height && `${dimensions.height * 4}px`};
 `;
 
 export const TicketDiv = styled.div<DivProps>`
@@ -49,7 +93,7 @@ export const TicketDiv = styled.div<DivProps>`
   justify-content: center;
   transform: ${(props) => props.spin && "rotateY(180deg)"};
   @media (max-width: 500px) {
-    padding-top: 50px;
+    margin-top: 20px;
   }
   /* :hover {
     transform: rotateY(180deg);
@@ -57,26 +101,77 @@ export const TicketDiv = styled.div<DivProps>`
 `;
 
 export const ParaDiv = styled.div<Dimensions>`
-  height: ${(dimensions) =>
-    dimensions.height && `${dimensions.height * 0.8}px`};
+  width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.75}px`};
   position: absolute;
   color: white;
-  padding: 300px;
+  padding-bottom: 0px;
+`;
+
+const FeedbackDiv = styled.div<Dimensions>`
+  width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.75}px`};
+  position: absolute;
+  color: white;
+  padding-bottom: 0px;
+`;
+
+const CompatDiv = styled.div<Dimensions>`
+  width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.75}px`};
+  position: absolute;
+  color: white;
+  padding-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+`;
+
+export const NattaTitle = styled.h2`
+  font-family: "Roc-Grotesk-Variable";
+  font-variation-settings: "wdth" 125, "wght" 600;
+  font-size: 40px;
+  line-height: 127%;
+  padding: 0;
+  margin: 0;
+  /* margin-top: 40px;
+  margin-bottom: 10px; */
+`;
+
+export const TealSpan = styled.span`
+  color: #3eae93;
 `;
 
 export const Subtitle = styled.h3`
   font-family: "Roc-Grotesk-Variable";
   font-variation-settings: "wdth" 125, "wght" 700;
-  font-size: 80px;
+  font-size: 18px;
   padding: 0;
   margin: 0;
+  padding-top: 25px;
+`;
+
+export const FeedbackTitle = styled(Subtitle)`
+  padding-top: 0px;
 `;
 
 export const Para = styled.p`
   font-family: "indivisible-variable";
   font-variation-settings: "wght" 400;
-  font-size: 50px;
+  font-size: 18px;
   line-height: 127%;
+`;
+
+export const LastPara = styled(Para)`
+  margin: 0;
+`;
+
+export const Footer = styled.p`
+  font-family: "Roc-Grotesk-Variable";
+  font-variation-settings: "wdth" 125, "wght" 500;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  font-size: 10px;
 `;
 
 export const TicketImage = styled.img<Props>`
@@ -178,12 +273,39 @@ export const Name = styled.input`
   }
 `;
 
+export const Feedback = styled.textarea`
+  font-family: "indivisible-variable";
+  font-variation-settings: "wght" 400;
+  font-size: 1.8vh;
+  width: 93%;
+  height: 100px;
+  background-color: black;
+  color: white;
+  border: solid 2px white;
+  border-radius: 4px;
+  margin: 0;
+  padding: 0;
+  padding-left: 5px;
+  padding-top: 5px;
+  margin-top: 20px;
+  align-self: center;
+  :focus {
+    outline: none;
+  }
+  ::placeholder {
+    color: gray;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
 export const TopTitle = styled.h3`
   font-family: "indivisible-variable";
   font-variation-settings: "wght" 550;
-  font-size: 2.5vh;
+  font-size: 2vh;
   margin: 0;
-  padding: 3vh 10px 5px 3vh;
+  padding: 3vh 10px 10px 2.7vh;
+  line-height: 127%;
 `;
 
 export const Number = styled(Name)`
@@ -218,9 +340,31 @@ const SubmitButton = styled.button`
   padding: 0;
   padding-left: 1.5vh;
   padding-top: 0.4vh;
+  padding-right: 1px;
   font-size: 1.8vh;
   text-align: left;
   box-sizing: content-box;
+`;
+
+const FeedbackButton = styled.button`
+  font-family: "indivisible-variable";
+  font-variation-settings: "wght" 500;
+  background-color: black;
+  height: 35px;
+  background-color: black;
+  color: white;
+  border: solid 2px white;
+  border-radius: 4px;
+  margin: 0;
+  padding: 0;
+  padding-left: 1.5vh;
+  padding-right: 1.5vh;
+  padding-top: 0.4vh;
+  margin-top: 30px;
+  font-size: 1.8vh;
+  text-align: left;
+  box-sizing: content-box;
+  display: block;
 `;
 
 const SubmitDiv = styled.div`
@@ -249,10 +393,32 @@ const DimensionsDiv = styled.div<Dimensions>`
     dimensions.height && `${dimensions.height * 0.9}px`};
 `;
 
+const CompatSub = styled(Para)`
+  font-family: "Roc-Grotesk-Variable";
+  font-variation-settings: "wdth" 125, "wght" 400;
+  font-size: 16px;
+  position: relative;
+`;
+
+const CompatTitle = styled(FeedbackTitle)`
+  font-size: 24px;
+  position: relative;
+  top: 30px;
+`;
+
+const VideoTemp = styled.img<Dimensions>`
+  width: ${(dimensions) =>
+    dimensions.height && `${dimensions.height * 0.8 * 0.48206979542}px`};
+  height: ${(dimensions) =>
+    dimensions.height && `${dimensions.height * 0.8}px`};
+`;
+
 const Landing: NextPage = () => {
   const [spin, setSpin] = useState(false);
   const [straight, setStraight] = useState(false);
   const { width, height } = useWindowDimensions();
+  const scrollRef = useRef(null);
+  useScrollSnap({ ref: scrollRef, duration: 100, delay: 50 });
 
   const handleSpin = (e: any) => {
     console.log(spin);
@@ -268,7 +434,7 @@ const Landing: NextPage = () => {
   }, [spin]);
 
   return (
-    <>
+    <div ref={scrollRef}>
       <Container height={height} width={width}>
         <TicketDiv
           spin={spin}
@@ -286,7 +452,7 @@ const Landing: NextPage = () => {
             <FormDiv>
               <TopTitle>
                 Reserve your spot
-                <GreenSpan>634 remaining</GreenSpan>
+                <GreenSpan>134 remaining</GreenSpan>
               </TopTitle>
               <DetailTitle>Your details:</DetailTitle>
               <Name type="text" placeholder="Full Name"></Name>
@@ -317,9 +483,28 @@ const Landing: NextPage = () => {
           width={width}
         ></ParaDiv> */}
       </Container>
+      <ContainerThree height={height} width={width}>
+        <VideoTemp height={height} width={width} src="VideoDiv.png" />
+      </ContainerThree>
+      <ContainerFour height={height} width={width}>
+        {" "}
+        <CompatDiv height={height} width={width}>
+          <CompatTitle>Compatitibility Test</CompatTitle>
+          <CompatSub>Are you a match for natta?</CompatSub>
+          <CompatCards src="CompatCards.png" />
+          <CompatControls>
+            <CompatWord>Swipe left or right</CompatWord>
+          </CompatControls>
+          {/* <Para>Are you a match for natta?</Para>
+          <Para>Swipe left or right</Para> */}
+        </CompatDiv>
+      </ContainerFour>
       <ContainerTwo height={height} width={width}>
         <ParaDiv height={height} width={width}>
-          <Subtitle>Why us?</Subtitle>
+          <NattaTitle>
+            natta <TealSpan>x</TealSpan> UoB
+          </NattaTitle>
+          <Subtitle>What's the deal?</Subtitle>
           <Para>
             If you&rsquo;ve chosen to study in Brum, you must have exquisite
             taste...
@@ -339,12 +524,25 @@ const Landing: NextPage = () => {
             In return, we promise to not stop refining and perfecting until
             we&rsquo;ve built the perfect app, especially for you.
           </Para>
-          <Para>Literally you, reading this, right now.</Para>
+          <LastPara>Literally you, reading this, right now.</LastPara>
         </ParaDiv>
       </ContainerTwo>
+      <ContainerFive height={height} width={width}>
+        <FeedbackDiv height={height} width={width}>
+          <FeedbackTitle>Still Scrolling?</FeedbackTitle>
+          <Para>
+            If you&rsquo;ve got this far and think this sounds as shit as other
+            dating apps, we&rsquo;d love to know why...
+          </Para>
+          <Feedback placeholder="This sounds shit because..."></Feedback>
+          <Feedback placeholder="I would hate it less if..."></Feedback>
+          <FeedbackButton>Submit</FeedbackButton>
+        </FeedbackDiv>
+        <Footer> © 2023 Natta Chat Ltd</Footer>
+      </ContainerFive>
       {/* <LogoutButton onClick={handleSpin}> Spin Dat Shit</LogoutButton> */}
       {/* <SeconButton onClick={handleStraighten}>Straighten Dat Shit</SeconButton> */}
-    </>
+    </div>
   );
 };
 

@@ -195,7 +195,9 @@ function Deck() {
           ) : (
             <>
               <NoMatchIcon src="failure.png" />
-              <h2 className={styles.header}>It's not us, it's you...</h2>
+              <h2 className={styles.header}>
+                It&rsquo;s not us, it&rsquo;s you...
+              </h2>
               <h4 className={styles.subheader}> You may need clinical help.</h4>
             </>
           )}

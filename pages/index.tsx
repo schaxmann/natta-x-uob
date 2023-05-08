@@ -587,7 +587,7 @@ const Landing: NextPage = () => {
             {otherSubmitted ? (
               <FormDiv>
                 <SuccessTitleTwo>
-                  Let's fly to Vegas and get married.
+                  Let&rsquo;s fly to Vegas and get married.
                 </SuccessTitleTwo>
                 <SuccessIcon src="/success.png" />
               </FormDiv>
@@ -636,6 +636,7 @@ const Landing: NextPage = () => {
             <LearnMoreText>Learn</LearnMoreText>
             <img
               src="/chevron.png"
+              alt="chevron"
               style={{ height: "20px", marginTop: "5px" }}
             />
             more
@@ -663,7 +664,7 @@ const Landing: NextPage = () => {
           <NattaTitle>
             natta <TealSpan>x</TealSpan> UoB
           </NattaTitle>
-          <Subtitle>What's the deal?</Subtitle>
+          <Subtitle>What&rsquo;s the deal?</Subtitle>
           <Para>
             If you&rsquo;ve chosen to study in Brum, you must have exquisite
             taste...

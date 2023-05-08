@@ -3,6 +3,12 @@ import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import useScrollSnap from "react-use-scroll-snap";
+import Deck from "@/components/card";
+import { useDrag } from "react-use-gesture";
+import { useSprings, animated, to as interpolate } from "@react-spring/web";
+import Lottie from "lottie-react";
+import swipe from "../animations/swipe-right.json";
+import { Scrollchor, swing } from "react-scrollchor";
 
 interface Props {
   spin: boolean;
@@ -36,6 +42,8 @@ const ContainerTwo = styled.div<Dimensions>`
   display: flex;
   align-items: center;
   justify-content: center;
+  overscroll-behavior-y: contain;
+  overflow: hidden;
 `;
 
 const CompatControls = styled.div`
@@ -183,9 +191,11 @@ export const TicketImage = styled.img<Props>`
   transition: all 0.8s ease;
   transform: ${(props) => props.spin && "rotate(0deg)"};
   outline: 1px solid transparent;
+  touch-action: none;
 `;
 
 export const BackTicketImage = styled.div<Props>`
+  touch-action: none;
   outline: 1px solid transparent;
   height: 100%;
   width: 100%;
@@ -320,12 +330,36 @@ export const DetailTitle = styled.h2`
   align-self: center;
 `;
 
+export const SuccessTitle = styled.h2`
+  font-family: "Roc-Grotesk-Variable";
+  font-variation-settings: "wdth" 125, "wght" 400;
+  font-size: 30px;
+  color: white;
+  width: 70%;
+  align-self: center;
+  line-height: 127%;
+`;
+
+export const SuccessTitleTwo = styled(SuccessTitle)`
+  padding-top: 60px;
+  padding-bottom: 5px;
+  width: 70%;
+`;
+
+export const SuccessIcon = styled.img`
+  height: 50px;
+  width: 50px;
+  position: relative;
+  left: 50px;
+  bottom: 20px;
+`;
+
 export const FriendDetailTitle = styled(DetailTitle)`
   padding-top: 4.5vh;
   line-height: 1.5;
 `;
 
-const SubmitButton = styled.button`
+export const SubmitButton = styled.button`
   font-family: "indivisible-variable";
   font-variation-settings: "wght" 500;
   background-color: black;
@@ -344,6 +378,10 @@ const SubmitButton = styled.button`
   font-size: 1.8vh;
   text-align: left;
   box-sizing: content-box;
+  :hover {
+    background-color: hsla(360, 100%, 100%, 0.2);
+    cursor: pointer;
+  }
 `;
 
 const FeedbackButton = styled.button`
@@ -365,6 +403,19 @@ const FeedbackButton = styled.button`
   text-align: left;
   box-sizing: content-box;
   display: block;
+  :hover {
+    background-color: hsla(360, 100%, 100%, 0.2);
+    cursor: pointer;
+  }
+`;
+
+const AnimationDiv = styled.div`
+  height: 100px;
+  width: 100px;
+  z-index: 30;
+  border-radius: 20px;
+  padding: 0;
+  opacity: 50%;
 `;
 
 const SubmitDiv = styled.div`
@@ -406,6 +457,29 @@ const CompatTitle = styled(FeedbackTitle)`
   top: 30px;
 `;
 
+const LearnMore = styled.div`
+  width: 200px;
+  height: 50px;
+  align-self: flex-end;
+  font-family: "Roc-Grotesk-Variable";
+  font-variation-settings: "wdth" 125, "wght" 500;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 15px;
+  color: white;
+  gap: 10px;
+  position: absolute;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const LearnMoreText = styled.p`
+  margin-bottom: 10px;
+  display: inline;
+`;
+
 const VideoTemp = styled.img<Dimensions>`
   width: ${(dimensions) =>
     dimensions.height && `${dimensions.height * 0.8 * 0.48206979542}px`};
@@ -419,58 +493,118 @@ const Landing: NextPage = () => {
   const { width, height } = useWindowDimensions();
   const scrollRef = useRef(null);
   useScrollSnap({ ref: scrollRef, duration: 100, delay: 50 });
+  const [animation, setAnimation] = useState(true);
+  const [selfSubmitted, SetSelfSubmitted] = useState(false);
+  const [otherSubmitted, SetOtherSubmitted] = useState(false);
+  const [yourName, setYourName] = useState("");
 
-  const handleSpin = (e: any) => {
-    console.log(spin);
+  const handleSpin = () => {
     setSpin(!spin);
     setStraight(false);
+    setAnimation(false);
   };
 
   useEffect(() => {
-    console.log(spin, "<= SpinState");
     if (spin) {
       setStraight(true);
     }
   }, [spin]);
 
+  const bind = useDrag(
+    ({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
+      // position will either be -1, 0 or 1
+      // console.log(xDir);
+      // console.log(mx);
+      // console.log(down);
+      console.log(velocity);
+      if (down && xDir) handleSpin();
+    }
+  );
+
   return (
     <div ref={scrollRef}>
       <Container height={height} width={width}>
+        {animation && (
+          <AnimationDiv>
+            <Lottie
+              animationData={swipe}
+              style={{
+                height: "200px",
+                width: "200px",
+                position: "relative",
+                right: "60px",
+                bottom: "50px",
+              }}
+            />
+          </AnimationDiv>
+        )}
         <TicketDiv
           spin={spin}
           straight={straight}
           height={height}
           width={width}
+          {...bind()}
         >
           <TicketImage
-            onClick={handleSpin}
             spin={spin}
             straight={straight}
             src="MainTicket.png"
+            {...bind()}
           />
-          <BackTicketImage spin={spin} onClick={handleSpin} straight={straight}>
-            <FormDiv>
-              <TopTitle>
-                Reserve your spot
-                <GreenSpan>134 remaining</GreenSpan>
-              </TopTitle>
-              <DetailTitle>Your details:</DetailTitle>
-              <Name type="text" placeholder="Full Name"></Name>
-              <Number type="tel" placeholder="Phone Number"></Number>
-              <SubmitDiv>
-                <SubmitButton>Submit</SubmitButton>
-              </SubmitDiv>
-            </FormDiv>
-            <FormDiv>
-              <FriendDetailTitle>
-                Your Friend&rsquo;s details:
-              </FriendDetailTitle>
-              <Name type="text" placeholder="Full Name"></Name>
-              <Number type="tel" placeholder="Phone Number"></Number>
-              <SubmitDiv>
-                <SubmitButton>Submit</SubmitButton>
-              </SubmitDiv>
-            </FormDiv>
+          <BackTicketImage spin={spin} straight={straight} {...bind()}>
+            {selfSubmitted ? (
+              <FormDiv>
+                <TopTitle>
+                  Your spot is reserved
+                  <GreenSpan>133 remaining</GreenSpan>
+                </TopTitle>
+                <SuccessTitle>
+                  We think we might like like you,{" "}
+                  {yourName.substring(0, yourName.indexOf(" "))}.
+                </SuccessTitle>
+                <SuccessIcon src="/success.png" />
+              </FormDiv>
+            ) : (
+              <FormDiv>
+                <TopTitle>
+                  Reserve your spot
+                  <GreenSpan>134 remaining</GreenSpan>
+                </TopTitle>
+                <DetailTitle>Your details:</DetailTitle>
+                <Name
+                  type="text"
+                  placeholder="Full Name"
+                  onChange={(e) => setYourName(e.target.value)}
+                ></Name>
+                <Number type="tel" placeholder="Phone Number"></Number>
+                <SubmitDiv>
+                  <SubmitButton onClick={() => SetSelfSubmitted(true)}>
+                    Submit
+                  </SubmitButton>
+                </SubmitDiv>
+              </FormDiv>
+            )}
+            {otherSubmitted ? (
+              <FormDiv>
+                <SuccessTitleTwo>
+                  Let's fly to Vegas and get married.
+                </SuccessTitleTwo>
+                <SuccessIcon src="/success.png" />
+              </FormDiv>
+            ) : (
+              <FormDiv>
+                <FriendDetailTitle>
+                  Your Friend&rsquo;s details:
+                </FriendDetailTitle>
+                <Name type="text" placeholder="Full Name"></Name>
+                <Number type="tel" placeholder="Phone Number"></Number>
+                <SubmitDiv>
+                  <SubmitButton onClick={() => SetOtherSubmitted(true)}>
+                    Submit
+                  </SubmitButton>
+                </SubmitDiv>
+              </FormDiv>
+            )}
           </BackTicketImage>
         </TicketDiv>
         {/* <DimensionsDiv height={height} width={width}>
@@ -482,16 +616,41 @@ const Landing: NextPage = () => {
           height={height}
           width={width}
         ></ParaDiv> */}
+        <LearnMore>
+          <Scrollchor
+            to="section-2"
+            animate={{ duration: 800, easing: swing }}
+            style={{
+              textDecoration: "none",
+              color: "white",
+              padding: "0",
+              paddingBottom: "10px",
+              alignSelf: "center",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <LearnMoreText>Learn</LearnMoreText>
+            <img
+              src="/chevron.png"
+              style={{ height: "20px", marginTop: "5px" }}
+            />
+            more
+          </Scrollchor>
+        </LearnMore>
       </Container>
-      <ContainerThree height={height} width={width}>
+      <ContainerThree height={height} width={width} id="section-2">
         <VideoTemp height={height} width={width} src="VideoDiv.png" />
       </ContainerThree>
       <ContainerFour height={height} width={width}>
-        {" "}
         <CompatDiv height={height} width={width}>
           <CompatTitle>Compatitibility Test</CompatTitle>
           <CompatSub>Are you a match for natta?</CompatSub>
-          <CompatCards src="CompatCards.png" />
+          <div style={{ height: "360px", width: "400px" }}></div>
+          <Deck />
           <CompatControls>
             <CompatWord>Swipe left or right</CompatWord>
           </CompatControls>

@@ -1,3 +1,8 @@
+html {
+  -webkit-text-size-adjust: none;
+  touch-action: pan-y; /*prevent user scaling*/
+}
+
 /* @import url(https://fonts.adobe.com/fonts/roc-grotesk-variable?vf-instance=Wide+Bold&vf-font-size=100&vf-font=RocGroteskVariable-CompressedThin);
 @import url(https://fonts.adobe.com/fonts/roc-grotesk-variable?vf-instance=Wide+Medium&vf-font-size=100&vf-font=RocGroteskVariable-CompressedThin); */
 

@@ -41,11 +41,12 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <link rel="stylesheet" href="https://use.typekit.net/nya7rrg.css" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="theme-color" content="#000000" />
         <title>natta | the first dating app</title>
         <Head />
-        <body style={{ backgroundColor: "black", margin: "0" }}>
+        <body>
           <Main />
           <NextScript />
         </body>

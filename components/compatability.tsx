@@ -6,6 +6,27 @@ import styled, { css } from "styled-components";
 import styles from "../pages/styles.module.css";
 import { SubmitButton } from "@/pages";
 
+const CompatControls = styled.div`
+  width: 200px;
+  height: 72.669322708px;
+  background-image: url("CompatControls.png");
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "indivisible-variable";
+  font-variation-settings: "wght" 500;
+  margin-top: 80px;
+  position: relative;
+  top: 30px;
+`;
+
+const CompatWord = styled.p`
+  position: relative;
+  top: -24px;
+  font-size: 16px;
+`;
+
 const cards = [
   "card10.png",
   "card9.png",
@@ -22,7 +43,6 @@ const cards = [
 const CompatDotDiv = styled.div`
   height: 50px;
   width: 150px;
-  position: absolute;
   justify-self: center;
   align-self: center;
   top: 580px;
@@ -95,7 +115,7 @@ const to = (i: number) => ({
   rot: 0,
   delay: i * 100,
 });
-const from = (_i: number) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 });
+const from = (_i: number) => ({ x: 0, rot: 0, scale: 1, y: -80 });
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r: number, s: number) =>
   `rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`;
@@ -153,7 +173,7 @@ function Deck() {
         if (index !== i) return; // We're only interested in changing spring-data for the current spring
         const isGone = gone.has(index);
         const x = isGone ? (200 + window.innerWidth) * dir : down ? mx : 0; // When a card is gone it flys out left or right, otherwise goes back to zero
-        const rot = mx / 100 + (isGone ? dir * 10 * velocity : 0); // How much the card tilts, flicking it harder makes it rotate faster
+        const rot = mx / 50 + (isGone ? dir * 10 * velocity : 0); // How much the card tilts, flicking it harder makes it rotate faster
         const scale = down ? 1.1 : 1; // Active cards lift up a bit
         return {
           x,
@@ -224,6 +244,9 @@ function Deck() {
           />
         </animated.div>
       ))}
+      <CompatControls>
+        <CompatWord>Swipe left or right</CompatWord>
+      </CompatControls>
       <CompatDotDiv>
         <WhiteDot src="circle.png" style={{ opacity: circle1 }} />
         <WhiteDot src="circle.png" style={{ opacity: circle2 }} />

@@ -317,7 +317,7 @@ export const DetailTitle = styled.h2`
 export const SuccessTitle = styled.h2`
   font-family: "Roc-Grotesk-Variable";
   font-variation-settings: "wdth" 125, "wght" 400;
-  font-size: 24px;
+  font-size: 16px;
   color: white;
   width: 70%;
   align-self: center;

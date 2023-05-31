@@ -323,8 +323,7 @@ export const SuccessTitle = styled.h2`
   align-self: center;
   line-height: 127%;
   @media (max-width: 400px) {
-    font-size: 16px;
-    line-height: 110%;
+    font-size: 18px;
   }
 `;
 

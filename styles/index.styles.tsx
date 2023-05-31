@@ -138,7 +138,7 @@ export const Para = styled.p`
   font-variation-settings: "wght" 500;
   font-size: 18px;
   line-height: 130%;
-  @media (max-width: 386px) {
+  @media (max-width: 400px) {
     font-size: 16px;
     line-height: 120%;
     margin-bottom: 0.8em;
@@ -317,11 +317,15 @@ export const DetailTitle = styled.h2`
 export const SuccessTitle = styled.h2`
   font-family: "Roc-Grotesk-Variable";
   font-variation-settings: "wdth" 125, "wght" 400;
-  font-size: 16px;
+  font-size: 24px;
   color: white;
   width: 70%;
   align-self: center;
   line-height: 127%;
+  @media (max-width: 400px) {
+    font-size: 16px;
+    line-height: 110%;
+  }
 `;
 
 export const SuccessTitleTwo = styled(SuccessTitle)`

@@ -82,6 +82,9 @@ const Landing: NextPage = () => {
   const [feedbackTwo, setFeedbackTwo] = useState("");
   const [feedbackSubmitted, SetFeedbackSubmitted] = useState(false);
   const [tickets, setTickets] = useState(239);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const minSwipeDistance = 10;
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -177,8 +180,43 @@ const Landing: NextPage = () => {
       </Wrapper>
       <Container height={height} width={width} id="ticket">
         {animation && (
-          <AnimationDiv {...bind()}>
-            <SwipeAnimation animationData={swipe} {...bind()} />
+          <AnimationDiv
+            // {...bind()}
+            // onDragEnd={() => handleSpin()}
+            // onTouchMove={() => handleSpin()}
+            // onTouchEnd={() => handleSpin()}
+            onTouchStart={(e) => {
+              setTouchEnd(0); // otherwise the swipe is fired even with usual touch events
+              setTouchStart(e.targetTouches[0].clientX);
+            }}
+            onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+            onTouchEnd={() => {
+              if (!touchStart || !touchEnd) return;
+              const distance = touchStart - touchEnd;
+              const isLeftSwipe = distance > minSwipeDistance;
+              const isRightSwipe = distance < -minSwipeDistance;
+              if (isLeftSwipe || isRightSwipe) handleSpin();
+            }}
+          >
+            <SwipeAnimation
+              animationData={swipe}
+              // {...bind()}
+              // onDragEnd={() => handleSpin()}
+              // onTouchMove={() => handleSpin()}
+              // onTouchEnd={() => handleSpin()}
+              onTouchStart={(e) => {
+                setTouchEnd(0); // otherwise the swipe is fired even with usual touch events
+                setTouchStart(e.targetTouches[0].clientX);
+              }}
+              onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+              onTouchEnd={() => {
+                if (!touchStart || !touchEnd) return;
+                const distance = touchStart - touchEnd;
+                const isLeftSwipe = distance > minSwipeDistance;
+                const isRightSwipe = distance < -minSwipeDistance;
+                if (isLeftSwipe || isRightSwipe) handleSpin();
+              }}
+            />
           </AnimationDiv>
         )}
         <TicketDiv
@@ -186,7 +224,22 @@ const Landing: NextPage = () => {
           straight={straight}
           height={height}
           width={width}
-          {...bind()}
+          // {...bind()}
+          // onDragEnd={() => handleSpin()}
+          // onTouchMove={() => handleSpin()}
+          // onTouchEnd={() => handleSpin()}
+          onTouchStart={(e) => {
+            setTouchEnd(0); // otherwise the swipe is fired even with usual touch events
+            setTouchStart(e.targetTouches[0].clientX);
+          }}
+          onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+          onTouchEnd={() => {
+            if (!touchStart || !touchEnd) return;
+            const distance = touchStart - touchEnd;
+            const isLeftSwipe = distance > minSwipeDistance;
+            const isRightSwipe = distance < -minSwipeDistance;
+            if (isLeftSwipe || isRightSwipe) handleSpin();
+          }}
         >
           <TicketImage
             spin={spin}

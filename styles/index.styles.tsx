@@ -47,7 +47,7 @@ export const TicketDiv = styled.div<DivProps>`
   @media (max-width: 500px) {
     margin-top: 80px;
   }
-  @media (max-width: 386px) {
+  @media (max-width: 400px) {
     width: 37.9svh;
   }
 `;

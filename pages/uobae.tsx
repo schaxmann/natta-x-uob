@@ -23,6 +23,7 @@ import {
   CompatSub,
   CompatTitle,
   Container,
+  DeckContainer,
   DetailTitle,
   Feedback,
   FeedbackButton,

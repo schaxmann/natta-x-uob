@@ -84,10 +84,19 @@ export const CompatDiv = styled.div<Dimensions>`
   width: ${(dimensions) => dimensions.width && `${dimensions.width * 0.75}px`};
   color: white;
   padding-bottom: 0px;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  overscroll-behavior-y: contain;
+  overflow: hidden;
+`;
+
+export const DeckContainer = styled(Container)`
+  overscroll-behavior-y: contain;
+  overflow: hidden;
+  position: absolute;
 `;
 
 export const NattaTitle = styled.h2`
@@ -97,7 +106,7 @@ export const NattaTitle = styled.h2`
   line-height: 127%;
   padding: 0;
   margin: 0;
-  @media (max-width: 386px) {
+  @media (max-width: 400px) {
     font-size: 36px;
   }
   /* margin-top: 40px;

@@ -62,6 +62,7 @@ import {
   getInvites,
   inviteUpdate,
 } from "@/utils/firestore";
+import Script from "next/script";
 
 const Landing: NextPage = () => {
   const [spin, setSpin] = useState(false);
@@ -281,7 +282,7 @@ const Landing: NextPage = () => {
           data-coverplayposition="center"
           data-width="576"
         ></div>
-        <script src="https://muse.ai/static/js/embed-player.min.js"></script>
+        <Script src="https://muse.ai/static/js/embed-player.min.js"></Script>
       </Container>
       <Container height={height} width={width}>
         <CompatDiv height={height} width={width}>

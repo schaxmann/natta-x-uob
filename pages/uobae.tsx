@@ -140,7 +140,6 @@ const Landing: NextPage = () => {
       createFeedbackDoc({ badBecause: feedbackOne, improveBy: feedbackTwo });
       SetFeedbackSubmitted(true);
     }
-    SetSelfSubmitted(true);
   };
 
   useEffect(() => {
